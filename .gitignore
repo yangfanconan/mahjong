@@ -1,0 +1,12 @@
+node_modules/
+platforms/
+plugins/
+www/
+.DS_Store
+*.log
+*.apk
+*.aab
+.idea/
+.vscode/
+*.swp
+*.swo

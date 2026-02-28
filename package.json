@@ -1,0 +1,31 @@
+{
+  "name": "mahjong-game",
+  "displayName": "麻将大师",
+  "version": "1.0.0",
+  "description": "跨平台多规则麻将游戏 - 支持四川、广东、日本、国际等多种规则",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server www -p 8080 -c-1",
+    "build:android": "cordova build android",
+    "build:android:release": "cordova build android --release"
+  },
+  "keywords": [
+    "mahjong",
+    "麻将",
+    "game",
+    "sichuan",
+    "japanese",
+    "cordova"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "cordova-android": "^12.0.1",
+    "http-server": "^14.1.1"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ]
+  }
+}

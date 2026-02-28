@@ -1,0 +1,8 @@
+{
+  "name": "emoji_color",
+  "displayName": "彩色Emoji",
+  "description": "使用彩色emoji生成的麻将牌",
+  "author": "系统生成",
+  "version": "1.0",
+  "preview": "#4CAF50"
+}

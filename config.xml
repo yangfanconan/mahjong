@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.mahjong.game" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>麻将大师</name>
+    <description>跨平台多规则麻将游戏</description>
+    <author email="" href="" />
+    
+    <content src="index.html" />
+    
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-navigation href="*" />
+    
+    <preference name="Orientation" value="landscape" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="BackgroundColor" value="0xff1a472a" />
+    <preference name="SplashScreenDelay" value="0" />
+    <preference name="FadeSplashScreen" value="false" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="android-minSdkVersion" value="26" />
+    <preference name="android-targetSdkVersion" value="34" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="AndroidLaunchMode" value="singleTop" />
+    
+    <platform name="android">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:usesCleartextTraffic="true" xmlns:android="http://schemas.android.com/apk/res/android" />
+        </edit-config>
+        <preference name="AndroidWindowSoftInputMode" value="adjustPan" />
+        <preference name="android-manifest" value="/manifest/application/activity[@android:name='MainActivity']" />
+    </platform>
+</widget>
