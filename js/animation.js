@@ -372,3 +372,23 @@ const AnimationEngine = {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = AnimationEngine;
 }
+
+// 牌大小缩放支持
+(function() {
+    var originalDrawImage = CanvasRenderingContext2D.prototype.drawImage;
+    CanvasRenderingContext2D.prototype.drawImage = function() {
+        if (arguments.length >= 5 && window.cardSizeScale && window.cardSizeScale !== 1.0) {
+            // 检测是否是麻将牌绘制（根据宽高比）
+            var w = arguments[3];
+            var h = arguments[4];
+            if (w > 20 && h > 30 && w/h > 0.5 && w/h < 1.0) {
+                var scale = window.cardSizeScale;
+                var args = Array.from(arguments);
+                args[3] = w * scale;
+                args[4] = h * scale;
+                return originalDrawImage.apply(this, args);
+            }
+        }
+        return originalDrawImage.apply(this, arguments);
+    };
+})();

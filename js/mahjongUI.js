@@ -662,6 +662,34 @@ const MahjongUI = (function() {
         loadSkin,
         getCurrentSkin,
         get cardWidth() { return cardWidth; },
-        get cardHeight() { return cardHeight; }
+        get cardHeight() { return cardHeight; },
+        setCardSize
     };
 })();
+
+/**
+ * 设置麻将牌大小
+ * @param {string} size - 'small', 'medium', 'large'
+ */
+function setCardSize(size) {
+    switch(size) {
+        case 'small':
+            cardWidth = 32;
+            cardHeight = 46;
+            break;
+        case 'medium':
+            cardWidth = 38;
+            cardHeight = 54;
+            break;
+        case 'large':
+            cardWidth = 44;
+            cardHeight = 62;
+            break;
+        default:
+            cardWidth = 38;
+            cardHeight = 54;
+    }
+    console.log('牌大小已设置为：' + size + ' (' + cardWidth + 'x' + cardHeight + ')');
+}
+
+// 导出函数

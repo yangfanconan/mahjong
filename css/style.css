@@ -21,7 +21,7 @@ html, body {
 }
 
 body {
-    background: #1a472a;
+    background: linear-gradient(135deg, #1a5c36, #0d3d1f);
 }
 
 #app {
@@ -217,7 +217,7 @@ body {
 }
 
 .modal-content {
-    background: linear-gradient(145deg, #2d5a3d, #1a472a);
+    background: linear-gradient(145deg, #1a5c36, #0d3d1f);
     border-radius: 20px;
     padding: 30px;
     max-width: 90%;

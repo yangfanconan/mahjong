@@ -1,0 +1,16 @@
+/**
+ * 规则编辑器按钮样式补充
+ */
+
+#rule-editor-btn {
+    background: rgba(255, 215, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+#rule-editor-btn:hover {
+    background: rgba(255, 215, 0, 0.35);
+}
+
+#rule-editor-btn:active {
+    transform: scale(0.95);
+}

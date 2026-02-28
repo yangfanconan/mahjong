@@ -73,6 +73,18 @@
         RuleEngine.zhuCeGuiZe(RuleJapan);
         RuleEngine.zhuCeGuiZe(RuleInternational);
         
+        if (typeof RuleEditor !== 'undefined') {
+            RuleEditor.chuShiHua();
+            const moBanKu = RuleEditor.huoQuMoBanKu();
+            moBanKu.forEach(moBan => {
+                RuleEngine.zhuCeGuiZe(moBan.guiZe);
+            });
+            const ziDingYi = RuleEditor.huoQuSuoYouGuiZe();
+            ziDingYi.forEach(guiZe => {
+                RuleEngine.zhuCeGuiZe(guiZe);
+            });
+        }
+        
         loadSettings();
         bindEvents();
         showStartModal();
@@ -110,7 +122,15 @@
     function startGame() {
         if (gameState.phase === 'playing') return;
         
-        const guiZeId = document.getElementById('rule-select').value;
+        let guiZeId = document.getElementById('rule-select').value;
+        
+        if (guiZeId === 'custom') {
+            if (typeof RuleEditorUI !== 'undefined') {
+                RuleEditorUI.daKai();
+            }
+            return;
+        }
+        
         settings.guiZeId = guiZeId;
         MahjongStorage.saveSettings(settings);
         
@@ -270,8 +290,10 @@
         const xiHaoPaiZu = MahjongTiles.xiPai(paiZu);
         
         gameState.wanJiaShouPai = xiHaoPaiZu.slice(0, 13);
-        for (let i = 0; i < 3; i++) {
-            gameState.duiShouShouPai[i] = xiHaoPaiZu.slice(13 + i * 13, 26 + i * 13);
+        let faPaiIndex = 13;
+for (let i = 0; i < 3; i++) {
+            gameState.duiShouShouPai[i] = xiHaoPaiZu.slice(faPaiIndex, faPaiIndex + 13);
+        faPaiIndex += 13;
         }
         
         const guiZe = RuleEngine.huoQuDangQianGuiZe();
@@ -1476,6 +1498,16 @@
             openSkinCenter();
         });
 
+        const openRuleEditorBtn = document.getElementById('open-rule-editor-btn');
+        if (openRuleEditorBtn) {
+            openRuleEditorBtn.addEventListener('click', () => {
+                document.getElementById('settings-modal').classList.add('hidden');
+                if (typeof RuleEditorUI !== 'undefined') {
+                    RuleEditorUI.daKai();
+                }
+            });
+        }
+
         document.querySelectorAll('.que-men-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 gameState.queMen = btn.dataset.men;
@@ -1543,4 +1575,72 @@
     } else {
         init();
     }
+})();
+
+// 牌大小选择器事件绑定
+setTimeout(function() {
+    var sizeBtns = document.querySelectorAll('.size-btn');
+    sizeBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            // 移除其他按钮的 active 状态
+            sizeBtns.forEach(function(b) {
+                b.style.background = 'rgba(255,255,255,0.1)';
+                b.style.color = '#fff';
+                b.style.borderColor = 'rgba(255,255,255,0.3)';
+            });
+            // 设置当前按钮为 active
+            this.style.background = 'rgba(255,215,0,0.2)';
+            this.style.color = '#ffd700';
+            this.style.borderColor = '#ffd700';
+            
+            // 设置牌大小
+            var size = this.dataset.size;
+            if (typeof MahjongUI !== 'undefined' && MahjongUI.setCardSize) {
+                MahjongUI.setCardSize(size);
+                // 保存设置
+                var savedSettings = JSON.parse(localStorage.getItem('mahjong_settings') || '{}');
+                savedSettings.cardSize = size;
+                localStorage.setItem('mahjong_settings', JSON.stringify(savedSettings));
+                // 重新渲染
+                if (typeof render === 'function') render();
+            }
+        });
+    });
+    
+    // 加载保存的牌大小设置
+    var savedSettings = JSON.parse(localStorage.getItem('mahjong_settings') || '{}');
+    if (savedSettings.cardSize) {
+        var activeBtn = document.querySelector('.size-btn[data-size="' + savedSettings.cardSize + '"]');
+        if (activeBtn) {
+            activeBtn.click();
+        }
+    }
+}, 1000);
+
+// 全局牌大小比例
+window.cardSizeScale = 1.0;
+
+// 修改 MahjongUI 的渲染比例
+(function() {
+    setTimeout(function() {
+        if (typeof MahjongUI !== 'undefined') {
+            var originalDrawCard = MahjongUI.drawCard;
+            MahjongUI.setCardSize = function(size) {
+                switch(size) {
+                    case 'small': window.cardSizeScale = 0.8; break;
+                    case 'medium': window.cardSizeScale = 1.0; break;
+                    case 'large': window.cardSizeScale = 1.2; break;
+                }
+                console.log('牌大小设置为：' + size + ' (比例：' + window.cardSizeScale + ')');
+                // 保存设置
+                try {
+                    var settings = JSON.parse(localStorage.getItem('mahjong_settings') || '{}');
+                    settings.cardSize = size;
+                    localStorage.setItem('mahjong_settings', JSON.stringify(settings));
+                } catch(e) {}
+                // 重新渲染
+                if (typeof render === 'function') render();
+            };
+        }
+    }, 500);
 })();
